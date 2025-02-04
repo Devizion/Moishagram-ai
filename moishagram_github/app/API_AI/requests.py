@@ -1,12 +1,13 @@
-import requests as req
 from aiogram.types import Message,CallbackQuery
 import json
 from uuid import uuid4
 import app.API_AI.system_promts as sysp
 
+import requests as req
+from requests import Response
 import app.const as const
 
-async def post_a_message(msg: Message,TOKEN_ACESS: str):
+async def post_a_message(msg: Message,TOKEN_ACESS: str) -> Response:
     if not TOKEN_ACESS: return
 
     payload=json.dumps({
@@ -30,12 +31,10 @@ async def post_a_message(msg: Message,TOKEN_ACESS: str):
         'Authorization': f'Bearer {TOKEN_ACESS}'
     }
 
-    respone=req.request("POST",const.API_URL_TEXT,headers=headers,data=payload,timeout=120,verify=False)
-    return respone.text
+    respone=req.request("POST",const.API_URL_TEXT,headers=headers,data=payload,timeout=120,verify=fr".\russian_trusted_root_ca.cer")
+    return respone
 
-async def promt_acess_token():
-    print("prompt token")
-
+async def promt_acess_token() -> Response:
     payload='scope=GIGACHAT_API_PERS'
 
     headers = {
@@ -45,6 +44,6 @@ async def promt_acess_token():
         'Authorization': f'Basic {const.API_AI_KEY}'
     }
 
-    respone=req.request("POST",const.API_URL_TOKEN_ACESS,headers=headers,data=payload,timeout=120,verify=False)
+    respone=req.request("POST",const.API_URL_TOKEN_ACESS,headers=headers,data=payload,timeout=120,verify=fr".\russian_trusted_root_ca.cer")
 
-    return respone.text
+    return respone
