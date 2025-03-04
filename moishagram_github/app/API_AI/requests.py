@@ -34,8 +34,6 @@ async def post_a_message(msg: Message,TOKEN_ACESS: str):
     return respone.text
 
 async def promt_acess_token():
-    print("prompt token")
-
     payload='scope=GIGACHAT_API_PERS'
 
     headers = {
